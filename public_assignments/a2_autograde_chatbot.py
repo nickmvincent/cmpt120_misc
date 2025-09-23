@@ -162,7 +162,7 @@ def check_ast_structures(filename: str):
         )
     return CheckResult("Uses required if/elif/else patterns and `or`", True)
 
-def run_program_with_inputs(filename, inputs):
+def run_program_with_inputs(filename, inputs, pad_extra=20, pad_value=None):
     """
     Execute <filename> as __main__ with mocked input/print capture.
     Returns (stdout_text, error or None, input_calls_count)
@@ -173,8 +173,15 @@ def run_program_with_inputs(filename, inputs):
 
     if "" not in sys.path:
         sys.path.insert(0, "")
+    # Allow programs that request more than the provided number of inputs by
+    # padding additional values (repeating the last provided or empty string).
+    if inputs:
+        filler = inputs[-1] if pad_value is None else pad_value
+    else:
+        filler = "" if pad_value is None else pad_value
+    side_effect_values = list(inputs) + [filler] * max(0, int(pad_extra))
 
-    with mock.patch("builtins.input", side_effect=inputs) as mocked_input:
+    with mock.patch("builtins.input", side_effect=side_effect_values) as mocked_input:
         with redirect_stdout(buf):
             try:
                 runpy.run_module(modname, run_name="__main__")
