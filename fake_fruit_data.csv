@@ -1,0 +1,9 @@
+,apples,bananas,cherries,durian,grapes,mangoes,oranges,pears
+Alice,1,0,1,1,0,0,0,0
+Bob,1,0,1,0,0,1,0,0
+Charlie,1,1,0,1,0,0,1,1
+Dana,0,1,1,0,0,0,0,1
+Evelyn,1,0,1,0,1,0,1,0
+Frank,0,1,1,0,0,1,1,0
+Grace,0,0,0,1,0,1,1,1
+Henry,0,0,0,1,1,1,1,1
