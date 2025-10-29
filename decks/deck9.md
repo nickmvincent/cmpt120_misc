@@ -4,8 +4,7 @@ theme: default
 paginate: true
 ---
 
-
-## Agenda for Today
+# Agenda for Today
 
 - Announcements
 - Quick comments on midterm
@@ -13,7 +12,9 @@ paginate: true
 - bits and bytes
 - Characters and colours using ASCII and Hexadecimal RGB
 
-## Announcements
+---
+
+# Announcements
 
 ---
 
@@ -47,7 +48,7 @@ def greet(name):
 
 ---
 
-## Three more examples
+# Three more examples
 
 Ex1:
 
@@ -77,7 +78,7 @@ What do these do? What should we call them?
 
 ---
 
-## Better names
+# Better names
 
 
 Ex1:
@@ -105,8 +106,6 @@ def factorial(n):
 ```
 
 ---
-title: Python `while` Loop
----
 
 # Python `while` Loop
 
@@ -129,8 +128,6 @@ while i < 5:
 ```
 
 ---
-title: Why Use a `while` Loop?
----
 
 # Why Use a `while` Loop (or not!)?
 
@@ -146,12 +143,12 @@ while not user_input:
     user_input = input("Enter something: ")
 ```
   
-- **Watch out for:**:
+---
+
+- **Watch out for:**
   - Infinite Loops: Easier to create loops that run indefinitely until a condition is met.
   - Probably don't need while loops when you can define a specific range or collection to iterate over.
 
----
-title: Python `continue`
 ---
 
 # Python `continue`
@@ -169,8 +166,7 @@ while condition:
         continue
     # remaining code for other iterations
 ```
-
---- 
+---
 
 **Example**:
 
@@ -188,8 +184,6 @@ Output: `0, 1, 3, 4` (skips `2`)
   - Sometime if you "found what you're looking for" you can continue
 
 ---
-title: More Practical Examples of `continue`
----
 
 # More Practical Examples of `continue`
 
@@ -203,6 +197,8 @@ for i in range(10):
 ```
   
 - Output: `1, 3, 5, 7, 9` (skips even numbers)
+
+---
 
 **Skip Blank Input**:
 
@@ -220,8 +216,6 @@ Output: `hello, world, python` (skips empty strings)
   - `continue` helps ignore unwanted cases, allowing the loop to focus on relevant data.
 
 ---
-title: Python `break`
----
 
 # Python `break`
 
@@ -238,7 +232,9 @@ title: Python `break`
       # remaining code
   ```
 
-**Example**:
+---
+
+**Example of break**:
 
 ```python
 for i in range(10):
@@ -252,8 +248,6 @@ Output: `0, 1, 2, 3, 4` (loop stops at `i == 5`)
 - **Key Point**:
   - `break` is useful when you want to exit a loop early based on a condition.
 
----
-title: Practical Examples of `break`
 ---
 
 # Practical Examples of `break`
@@ -281,8 +275,6 @@ for num in numbers:
 ```
 
 ---
-title: summary
----
 
 # Summary of our control flow tools
 
@@ -294,7 +286,7 @@ title: summary
 
 ---
 
-## Connecting back to bits and bytes
+# Connecting back to bits and bytes
 
 Let's put it all together and transition back to bits and bytes!
 
@@ -304,7 +296,7 @@ Task: write a program that takes an 8-bit binary number from user and prints out
 
 ---
 
-## Step 1: Write a function to convert binary to decimal
+# Step 1: Write a function to convert binary to decimal
 
 ```python
 def binary_to_decimal(binary_str):
@@ -318,7 +310,7 @@ def binary_to_decimal(binary_str):
 ---
 
 
-## Step 2: Write a function to convert decimal to ascii
+# Step 2: Write a function to convert decimal to ascii
 
 (Turns out we can just use a Python built-in: effectively we're just giving it a new name)
 
@@ -330,7 +322,7 @@ def decimal_to_ascii(decimal):
 
 ---
 
-## Step 3: Use a while loop with break and continue
+# Step 3: Use a while loop with break and continue
 
 ```python
 def process_binary_input():
@@ -358,13 +350,6 @@ def process_binary_input():
 # Call the function to start the loop
 process_binary_input()
 ```
-
----
-
-Put it together (live narrated example in VS Code)
-
----
-title: How to Read Binary Code
 ---
 
 # How to Read Binary Code
@@ -382,6 +367,9 @@ title: How to Read Binary Code
     - Second from right is 2.
     - Third from right 4. And so on.
 
+
+---
+
 **Example**:
 
 Binary: 1011
@@ -391,14 +379,7 @@ Binary: 1011
 # 11
 ```
 
-
-</div>
-
 ---
-
-<div class="text-center text-2xl mb-6">
-  Step-by-Step Guide
-</div>
 
 - **Start from the rightmost bit**:
   - Assign powers of 2 (starting from 2^0).
@@ -407,27 +388,10 @@ Binary: 1011
   
 - **Sum the results** to get the decimal number.
 
-<div class="mt-4">
-  - Binary: `1011`
-  - Decimal: `11`
-</div>
-
----
-title: Reading Binary Code
-layout: center
 ---
 
 # Reading Binary
 
-<style>
-  table {
-    font-size: 1.2em;
-  }
-  th, td {
-    padding: 8px 16px;
-    text-align: center;
-  }
-</style>
 
 | Power of 2 | 2⁷  | 2⁶  | 2⁵  | 2⁴  | 2³  | 2²  | 2¹  | 2⁰  |
 |------------|-----|-----|-----|-----|-----|-----|-----|-----|
@@ -437,16 +401,12 @@ layout: center
 Total: 128 + 0 + 32 + 16 + 0 + 4 + 0 + 1 = 181
 
 ---
-title: ASCII
----
 
-## What is ASCII?
+# What is ASCII?
 
 - American Standard Code for Information Interchange
 - ASCII is a table that maps decimal numbers to characters
 
----
-layout: center
 ---
 
 # ASCII , some random examples
@@ -475,8 +435,6 @@ Note: ASCII uses 7 bits, allowing for 128 characters (0-127).<br>
 Extended ASCII uses 8 bits, allowing for 256 characters (0-255).
 </div>
 
----
-layout: two-cols
 ---
 
 # ASCII Table Sequence
@@ -528,7 +486,7 @@ layout: two-cols
 | 50  | 0x32 | `2`  | Two            |
 | 51  | 0x33 | `3`  | Three          |
 
---- 
+---
 
 # Python Examples
 
@@ -549,37 +507,8 @@ print(''.join(chr(i) for i in range(65, 91)))  # A-Z
 </div>
 
 ---
-layout: center
----
 
-# Decode the Binary Message! 🔍
-
-<style>
-  .binary-message {
-    font-family: monospace;
-    font-size: 1.5em;
-    letter-spacing: 2px;
-    line-height: 2;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-  }
-  .hint {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 20px;
-  }
-  .hidden {
-    background: #888;
-    color: #888;
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
-  .hidden:hover {
-    background: transparent;
-    color: white;
-  }
-</style>
+# Decode the Binary Message!
 
 <div class="binary-message">
 01001000 01101001 00100001 00100000 
@@ -587,15 +516,13 @@ layout: center
 01110010 01101111 01100011 01101011 00100001 
 </div>
 
-<div class="hint">
 💡 Hint: Each character is 8 bits (1 byte)
-</div>
 
-<div class="mt-4 text-sm">
+---
+
 Could try grabbing scratch paper and looking up the ASCII table or...
-</div>
 
---- 
+---
 
 <div class="mt-4 text-sm">
 Or: convert 01001000 -> 72 -> H.
@@ -620,8 +547,6 @@ Solution: <span>Hi! You rock!</span>
 </div>
 
 ---
-title: Hexadecimal
----
 
 # Hexadecimal
 
@@ -635,13 +560,15 @@ But we only have 10 digits?
 
 ---
 
-## Taking 6 extra characters from the alphabet
+# Taking 6 extra characters from the alphabet
 
 In hexadecimal, there are 16 digits (we use A - F for numbers 11-16).
 
 - 0000 (binary) <> 0 (decimal) <> 0 (hexadecimal)
 - 0001 (binary) <> 1 (decimal) <> 1 (hexadecimal)
 - 0010 (binary) <> 2 (decimal) <> 2 (hexadecimal)
+
+---
 
 Ok, it's all the same until...
 
@@ -674,12 +601,12 @@ FF -> 15 * (16 ** 1) + 15 (16 ** 0) = 225 + 16 = 240 + 15 = 255
 
 
 ---
-title: Importance of Grouping
----
 
 # Importance of Grouping
 
 If you just know that 1 byte is 8 bits, that binary codes used powers of 2, and that and hexadecimal uses powers of 16 and the characters A-F, you can solve a lot of problems from "first principles".
+
+---
 
 However we also need to learn common practices around grouping:
 - when storing text using an 8-bit character set like ASCII, bits are grouped into 8 bits so a string like "01001000 01101001" can be converted to two characters
@@ -689,27 +616,7 @@ However we also need to learn common practices around grouping:
 
 ---
 
-Some additional topics of interest: unicode, mojibake
-
---- 
-title: Unicode
----
-
-# About Unicode
-
-- Unicode is a superset of ASCII. 
-- A is a super of B means A includes B, but also other stuff.
-- ASCII (American Standard Code for Information Interchange) defines 128 characters, including English letters, digits, and control characters, using 7 bits per character. 
-- Unicode, on the other hand, was designed to encompass more characters from more writing systems worldwide, using up to 32 bits per character. The first 128 characters in Unicode are identical to ASCII, ensuring backward compatibility.
-
----
-
-What happens if we have a text file encoded as Unicode, but we tell our computer it's ASCII?
-
-Garbled text: called Mojibake!
-
-For fun: see Wikipedia on this https://en.wikipedia.org/wiki/Mojibake
-
+For fun: see Wikipedia on Unicode and Mojibake https://en.wikipedia.org/wiki/Mojibake
 
 ---
 
@@ -726,8 +633,6 @@ for i in range(len(characters_as_dec)):
 ```
 
 ---
-title: Outcomes
----
 
 # Outcomes
 
@@ -739,5 +644,282 @@ What do we need to know here?
 4. Understand the goal of hexadecimal
 5. Know that binary numbers convert to hexadecimal by grouping of 4 bits
 6. Know the purpose of ASCII
-7. Know relationship of Unicode to ASCII
-8. Know how to store RGB numbers (3 byte aka 24 bits aka 6 hexadecimal digits)
+7. Know how to store RGB numbers (3 byte aka 24 bits aka 6 hexadecimal digits)
+
+---
+
+# Agenda for Part 2
+
+- Revisit functions (add a mental model)
+- Turtle: drawing in Python
+- Quick while loop refresh
+- Your questions or extra practice (time permitting)
+
+---
+
+# Recap, Recipe for a Function
+
+To create a function, follow these steps:
+
+1. Use `def` + `function_name` + arguments in parentheses + a colon.
+2. Indent all code within the function block.
+3. Use `return` to send back a value.
+
+Example:
+
+```python
+def greet(name):
+    message = f"Hello, {name}!"
+    return message
+```
+
+Calling `greet("Alice")` will return `"Hello, Alice!"`.
+
+---
+
+# Scope in Functions
+
+Functions have their own scope. Variables defined inside functions aren’t accessible outside them unless returned.
+
+**Tip:** Imagine your function as if it were in a separate file.
+
+---
+
+# Try It: Visualize Functions
+
+- Open the Python Tutor visualizer and paste one of the examples.
+- Step through execution to see variables created inside the function scope.
+- Predict each return value before you run it, then verify your guess.
+
+---
+
+# Default Arguments
+
+You can set default values for arguments:
+
+```python
+def power(base, exponent=2):
+    return base ** exponent
+```
+
+Using `power(3)` defaults to `exponent=2`, giving `9`, while `power(3, 3)` returns `27`.
+
+---
+
+# Challenge: Quick Default Argument Check-In
+
+- Think of a built-in function we call with and without optional arguments (`range`, `print`, `round`...).
+- Why do defaults matter? They let us skip parameters until we actually need to change them.
+- We'll practice by repairing a broken script that misuses arguments.
+
+---
+
+# Mini Challenge: Patch the Functions
+
+- Only add code; don't delete or reorder anything.
+- Add sensible default values and fix argument counts so every call succeeds.
+- Predict the output before running the test harness.
+
+```python
+# Try to get this code to run by ONLY ADDING things
+
+# give this a default argument
+def f1(x):
+    return x * 2
+```
+
+---
+
+```python
+# takes multiple arguments: pass them below
+def f2(a, b):
+    return a + b
+```
+
+---
+
+```python
+# f3 takes no arguments
+def f3():  # No arguments
+    return "Hello!"
+
+def f4(value):  # Single argument
+    if value > 0:
+        return "Positive"
+    else:
+        return "Non-positive"
+```
+
+---
+
+# General tips
+
+- Define functions with `def`, indent every line inside, and keep names descriptive.
+- Always "respect function scope": pass values in, return results out, avoid hidden globals.
+- Use docstrings or comments to capture intent before you forget it.
+- Default arguments make functions flexible -- pick defaults that match the most common call.
+- Can troubleshoot by calling each function in isolation (or with a tiny test harness).
+
+---
+
+# Quick While Loop Tune-Up
+
+- Start with a clear condition: “keep looping while...” (usually tied to a variable you control).
+- Update that variable inside the loop or you risk an infinite loop.
+- Combine `continue` for “skip this case” and `break` for “we’re done here”.
+- Pair every `input()` with validation so bad data triggers a retry rather than a crash.
+- Add a “sentinel” option like `exit` to give your users an escape hatch.
+
+---
+
+# Mental Model: Buckets & Robots
+
+- Variables are buckets—each holds one value at a time (numbers, strings, lists...).
+- Functions are little robots that read buckets, do work, and hand you results.
+- If a robot needs new information, pass it in as an argument instead of letting it rummage around.
+- When a robot finishes, whatever it `return`s is what goes back into a bucket.
+
+---
+
+# Turtle TLDR Overview
+
+Now, let's do a "Too Long, Didn't Read" tutorial on Python's Turtle graphics. 
+
+- This complements the live demo—use it as a quick reference while you code.
+
+---
+
+# How to Use This Deck
+
+Here’s the suggested approach for learning:
+
+1. Glance through the slides for an overview.
+2. Uncomment and run each code line in `turtle_tldr.py` incrementally to see how Turtle behaves.
+3. Experiment by changing function arguments to see their effects on the output.
+
+
+---
+
+# Turtle TLDR Code Snippets
+
+Here are key code snippets from `turtle_tldr.py` to help you get started:
+
+```python
+import turtle
+
+# Create a turtle object named pen
+pen = turtle.Turtle()
+pen.speed(0)  # Fastest speed
+
+# Draw a triangle with stamps at each vertex
+for i in range(3):
+    pen.forward(50)
+    pen.stamp()
+    pen.left(120)
+
+# Re-position pen for the next part of the drawing
+pen.penup()
+pen.goto(100, -100)
+pen.pendown()
+
+# Draw a square with blue color
+pen.color("blue")
+for _ in range(4):
+    pen.forward(100)
+    pen.right(90)
+```
+
+---
+
+# Turtle Practice Prompt
+
+**Assignment: Create a Unique Abstract Art Piece**
+
+Use Python's Turtle module and the `random` module to generate different abstract artwork with each script run.
+
+---
+
+# Suggested Steps
+
+Try out the following approaches:
+
+- Draw random lines
+- Draw random circles and lines
+- Draw random squares
+- **Advanced:** Use a math function like `sin` (via `import math -> math.sin()`)
+
+Be creative and experiment with Turtle methods like `forward()`, `right()`, `left()`, `penup()`, `pendown()`, `color()`, and `speed()`.
+
+---
+
+# Coding Tips
+
+To organize your code:
+
+- Create a `main` function for the main body of code, and call it at the end with `main()`.
+
+Use this snippet as a starter kit:
+
+```python
+# Starter kit 5-line snippet for turtle art
+import turtle as t
+import random
+def main():
+    t.forward(100)
+main()
+```
+
+---
+
+# Hints for Getting Started
+
+If you’re stuck, try drawing random lines with this function:
+
+```python
+import random
+
+def draw_random_lines(num_lines):
+    for _ in range(num_lines):
+        t.color(random.random(), random.random(), random.random())
+        t.penup()
+        t.goto(random.randint(-200, 200), random.randint(-200, 200))
+        t.pendown()
+        t.setheading(random.randint(0, 360))
+        t.forward(random.randint(50, 200))
+```
+
+Call `draw_random_lines(5)` under `main()` to draw five random lines. Experiment with circles or squares from here!
+
+---
+
+# Advanced Color and Positioning
+
+```python
+# Use RGB colors for more variety
+turtle.colormode(255)
+mycolor = (255, 0, 120)
+pen.color(mycolor)
+for _ in range(4):
+    pen.forward(100)
+    pen.right(90)
+
+# Hide the turtle at the end
+pen.hideturtle()
+turtle.done()
+```
+
+# Turtle Recap
+
+- Experiment with different shapes and helper functions to keep code readable.
+- Use randomness to create unique outputs—seed with `random.seed()` if you need repeatability.
+- Explore color and positioning (`colormode`, `penup`, `goto`) for more polished art.
+- Always end with `turtle.done()` (or keep the window open another way) so you can admire the result.
+
+---
+
+# Turtle Troubleshooting Tips
+
+- Turtle opens a separate window—run scripts locally (not in some online editors).
+- If the window flashes and closes, call `turtle.done()` or `screen.exitonclick()` at the end.
+- When nothing draws, double-check that you lifted the pen with `penup()` or moved the turtle off-screen.
+- Slow things down with `pen.speed(3)` when you need to watch motion carefully.
