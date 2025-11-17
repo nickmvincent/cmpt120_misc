@@ -1,0 +1,10 @@
+[project]
+name = "cmpt120-misc"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastparquet>=2024.11.0",
+    "pygame>=2.6.1",
+]
