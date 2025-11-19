@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Fundamentals: Algorithms & Recursion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        code, pre { font-family: 'Fira Code', monospace; }
+        .fade-enter { opacity: 0; transform: translateY(10px); }
+        .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.3s, transform 0.3s; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+
+    <nav class="w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col shadow-xl z-10">
+        <div class="p-8 border-b border-slate-700">
+            <h1 class="text-2xl font-bold tracking-tight text-indigo-400">CS Algorithms</h1>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">Interactive Guide to Sorting, Searching & Recursion</p>
+        </div>
+        <ul class="flex-1 overflow-y-auto py-6 space-y-2">
+            <li><button onclick="showSection('complexity')" class="nav-btn w-full text-left px-8 py-4 hover:bg-slate-800 border-l-4 border-transparent transition-all text-sm font-medium flex flex-col"><span class="font-bold text-base">1. Big O Complexity</span><span class="text-xs text-slate-400 mt-1">Patterns & Growth Rates</span></button></li>
+            <li><button onclick="showSection('sorting')" class="nav-btn w-full text-left px-8 py-4 hover:bg-slate-800 border-l-4 border-transparent transition-all text-sm font-medium flex flex-col"><span class="font-bold text-base">2. Selection Sort</span><span class="text-xs text-slate-400 mt-1">The 'Temp' Swap Logic</span></button></li>
+            <li><button onclick="showSection('searching')" class="nav-btn w-full text-left px-8 py-4 hover:bg-slate-800 border-l-4 border-transparent transition-all text-sm font-medium flex flex-col"><span class="font-bold text-base">3. Binary Search</span><span class="text-xs text-slate-400 mt-1">Divide & Conquer</span></button></li>
+            <li><button onclick="showSection('recursion')" class="nav-btn w-full text-left px-8 py-4 hover:bg-slate-800 border-l-4 border-transparent transition-all text-sm font-medium flex flex-col"><span class="font-bold text-base">4. Recursion</span><span class="text-xs text-slate-400 mt-1">Intuition & Mental Models</span></button></li>
+        </ul>
+    </nav>
+
+    <main class="flex-1 overflow-y-auto scroll-smooth p-10 bg-slate-50 relative" id="main-content">
+        
+        <section id="complexity" class="content-section max-w-5xl mx-auto hidden">
+            <header class="mb-10">
+                <h2 class="text-5xl font-bold mb-4 text-slate-900">Complexity Analysis</h2>
+                <p class="text-xl text-slate-600 leading-relaxed">Big O notation isn't just math; it's a way to predict how your code behaves as data grows. We measure efficiency by counting <strong>operations</strong>, not seconds.</p>
+            </header>
+
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mb-12">
+                <h3 class="text-lg font-bold mb-6">Visualizing Growth Rates (Operations vs Input Size)</h3>
+                <div class="h-64 flex items-end space-x-6 border-l-2 border-b-2 border-slate-300 pb-2 pl-2 relative">
+                    <div class="flex flex-col items-center gap-2 w-1/4 group">
+                        <div class="w-full bg-green-400 h-4 rounded-t transition-all group-hover:bg-green-500"></div>
+                        <span class="text-xs font-mono font-bold text-green-700">O(log n)</span>
+                        <span class="text-[10px] text-slate-400">Binary Search</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 w-1/4 group">
+                        <div class="w-full bg-yellow-400 h-12 rounded-t transition-all group-hover:bg-yellow-500"></div>
+                        <span class="text-xs font-mono font-bold text-yellow-700">O(n)</span>
+                        <span class="text-[10px] text-slate-400">Linear Search</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 w-1/4 group">
+                        <div class="w-full bg-orange-400 h-32 rounded-t transition-all group-hover:bg-orange-500"></div>
+                        <span class="text-xs font-mono font-bold text-orange-700">O(n log n)</span>
+                        <span class="text-[10px] text-slate-400">Merge Sort</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-2 w-1/4 group">
+                        <div class="w-full bg-red-500 h-full rounded-t transition-all group-hover:bg-red-600 shadow-lg shadow-red-100"></div>
+                        <span class="text-xs font-mono font-bold text-red-700">O(n²)</span>
+                        <span class="text-[10px] text-slate-400">Selection Sort</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-6">Code Pattern Recognition</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-slate-700">Constant Time</span>
+                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded font-mono text-sm font-bold">O(1)</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-3">Does not depend on list size. One operation.</p>
+<pre><code class="language-python">def get_first(arr):
+    return arr[0]  # Always 1 step</code></pre>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-slate-700">Logarithmic</span>
+                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded font-mono text-sm font-bold">O(log n)</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-3">The problem space is cut in half every iteration.</p>
+<pre><code class="language-python">while n > 1:
+    n = n // 2  # Divide by 2</code></pre>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-slate-700">Linear Time</span>
+                        <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-mono text-sm font-bold">O(n)</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-3">Iterates through the input once.</p>
+<pre><code class="language-python">for item in arr:
+    print(item)</code></pre>
+                </div>
+
+                <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-slate-700">Quadratic</span>
+                        <span class="bg-red-100 text-red-700 px-2 py-1 rounded font-mono text-sm font-bold">O(n²)</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-3">Nested loops. For every item, loop through all items.</p>
+<pre><code class="language-python">for i in range(n):
+    for j in range(n):
+        print(i, j)</code></pre>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="sorting" class="content-section max-w-5xl mx-auto hidden">
+            <header class="mb-8">
+                <h2 class="text-5xl font-bold mb-4 text-slate-900">Selection Sort</h2>
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-bold">Time: O(n²)</span>
+                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-bold">Space: O(1)</span>
+                </div>
+                <p class="text-lg text-slate-600">
+                    The strategy is simple: <strong>Search</strong> for the smallest item in the unsorted pile, and <strong>swap</strong> it into the correct spot.
+                </p>
+            </header>
+
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200 mb-10">
+                <div class="flex justify-between items-end mb-4">
+                    <h3 class="text-lg font-bold text-slate-700">Sorting Visualizer</h3>
+                    <div class="flex gap-2 text-xs font-mono">
+                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-green-500 rounded"></div>Sorted</span>
+                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-red-500 rounded"></div>Min Found</span>
+                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-yellow-400 rounded"></div>Scanning</span>
+                    </div>
+                </div>
+                
+                <div class="h-56 flex items-end justify-center gap-1 mb-6 border-b border-slate-100 pb-4 bg-slate-50 rounded-lg p-4" id="sort-container">
+                    </div>
+
+                <div class="flex gap-4 items-center">
+                    <button onclick="resetSort()" class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 font-bold text-sm transition-colors">Reset Array</button>
+                    <button onclick="runSelectionSort()" class="px-5 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-bold text-sm shadow-lg shadow-indigo-200 transition-all transform active:scale-95">Run Sort</button>
+                    <div id="sort-msg" class="ml-auto font-mono text-sm text-slate-500">Ready</div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">The Algorithm Steps</h3>
+                    <ol class="relative border-l border-slate-200 ml-3 space-y-8">
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-4 ring-white font-bold text-indigo-600">1</span>
+                            <h4 class="font-bold text-slate-900 mb-1">The Outer Loop</h4>
+                            <p class="text-sm text-slate-600">Iterate through each position in the list (from 0 to n-1). This position <code>i</code> is where we want to put the next smallest number.</p>
+                        </li>
+                        <li class="mb-10 ml-6">
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-4 ring-white font-bold text-indigo-600">2</span>
+                            <h4 class="font-bold text-slate-900 mb-1">Find Minimum</h4>
+                            <p class="text-sm text-slate-600">Start assuming the element at <code>i</code> is the smallest. Run an inner loop from <code>i+1</code> to the end. If you find a smaller number, update your record of the <code>min_index</code>.</p>
+                        </li>
+                        <li class="ml-6">
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-4 ring-white font-bold text-indigo-600">3</span>
+                            <h4 class="font-bold text-slate-900 mb-1">The Swap (Using Temp)</h4>
+                            <p class="text-sm text-slate-600">Once the inner loop finishes, swap the value at <code>i</code> with the value at <code>min_index</code> using a temporary variable.</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Python Implementation</h3>
+                    <div class="bg-slate-900 rounded-xl overflow-hidden shadow-2xl">
+                        <div class="bg-slate-800 px-4 py-2 text-xs text-slate-400 font-mono border-b border-slate-700 flex justify-between">
+                            <span>selection_sort.py</span>
+                            <span>Python 3</span>
+                        </div>
+                        <div class="p-6 overflow-x-auto">
+<pre><code class="language-python">def selection_sort(arr):
+    n = len(arr)
+    
+    # Traverse through all array elements
+    for i in range(n):
+        
+        # Step 1: Assume current index is minimum
+        min_index = i
+        
+        # Step 2: Find the actual minimum in remainder
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        
+        # Step 3: Swap using a temporary variable
+        # (We save the value of arr[i] into temp, 
+        #  overwrite arr[i], then restore temp)
+        temp = arr[i]
+        arr[i] = arr[min_index]
+        arr[min_index] = temp
+
+data = [64, 25, 12, 22, 11]
+selection_sort(data)
+print(data) </code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="searching" class="content-section max-w-5xl mx-auto hidden">
+            <header class="mb-8">
+                <h2 class="text-5xl font-bold mb-4 text-slate-900">Binary Search</h2>
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-bold">Time: O(log n)</span>
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-bold">Pre-req: Sorted Data</span>
+                </div>
+                <p class="text-lg text-slate-600">
+                    Don't check one by one. Jump to the middle. Is it higher? Lower? <strong>Eliminate half the universe</strong> with every guess.
+                </p>
+            </header>
+
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200 mb-10">
+                <h3 class="text-lg font-bold text-slate-700 mb-4">Simulation: Finding '23'</h3>
+                <div class="flex justify-center gap-2 mb-8 overflow-x-auto py-2" id="binary-container">
+                    </div>
+                
+                <div class="flex justify-between items-center bg-slate-50 p-4 rounded-lg border border-slate-100">
+                    <div class="font-mono text-sm">
+                        <span class="text-slate-400">Status: </span>
+                        <span id="binary-status" class="text-indigo-600 font-bold">Ready to search</span>
+                    </div>
+                    <div class="space-x-2">
+                         <button onclick="resetBinarySearch()" class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">Reset</button>
+                         <button onclick="stepBinarySearch()" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-bold shadow-md transition-transform active:scale-95">Next Step</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="opacity-75 hover:opacity-100 transition-opacity">
+                    <h3 class="text-xl font-bold mb-3 text-slate-500">Linear Search (The Slow Way)</h3>
+                    <div class="bg-slate-100 p-4 rounded-lg border border-slate-200">
+                        <pre><code class="language-python"># O(n)
+def linear_search(arr, target):
+    # Check every single item
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1</code></pre>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-2">Good for unsorted data. Bad for big lists.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold mb-3 text-indigo-600">Binary Search (The Fast Way)</h3>
+                    <div class="bg-slate-900 p-4 rounded-lg shadow-lg">
+                        <pre><code class="language-python"># O(log n)
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+
+    while low <= high:
+        # Integer Division
+        mid = (low + high) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            # Discard left half
+            low = mid + 1
+        else:
+            # Discard right half
+            high = mid - 1
+            
+    return -1</code></pre>
+                    </div>
+                    <div class="mt-4 bg-yellow-50 p-3 rounded border border-yellow-200 text-sm text-yellow-800">
+                        <strong>Critical Implementation Details:</strong>
+                        <ul class="list-disc ml-4 mt-1">
+                            <li>Use <code>//</code> for index division (integers only).</li>
+                            <li>The loop condition must be <code>low <= high</code> to catch the last item.</li>
+                            <li>Move boundaries by <code>mid + 1</code> or <code>mid - 1</code>, not just <code>mid</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="recursion" class="content-section max-w-5xl mx-auto hidden">
+            <header class="mb-8">
+                <h2 class="text-5xl font-bold mb-4 text-slate-900">Recursion</h2>
+                <p class="text-xl text-slate-600 leading-relaxed">
+                    A function that calls itself. It's not magic; it's a stack of tasks. We solve a big problem by solving a slightly smaller version of it.
+                </p>
+            </header>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-8 mb-12">
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">How to "Find" the Recursive Solution</h3>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-blue-800 text-lg mb-2 flex items-center gap-2">
+                            <span>🧠</span> The "Delegation" Metaphor
+                        </h4>
+                        <p class="text-sm text-slate-700 mb-4">
+                            Imagine you are a manager who is very lazy. You are given a task (like summing a list).
+                            <br><br>
+                            You don't want to do the whole thing. So, you do <strong>one tiny piece</strong> (handle the first number) and pass the rest of the list to your clone.
+                        </p>
+                        <div class="bg-white p-3 rounded border border-blue-100 text-sm font-mono text-slate-600">
+                            Total = My_Number + Clone_Do_Rest()
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-blue-800 text-lg mb-2 flex items-center gap-2">
+                            <span>✨</span> The Recursive Leap of Faith
+                        </h4>
+                        <p class="text-sm text-slate-700 mb-4">
+                            When writing the code, <strong>assume the recursive call works</strong>. 
+                            <br><br>
+                            Don't try to simulate the whole stack in your head immediately. Just ask: "If <code>factorial(n-1)</code> gave me the correct answer for the smaller number, what would I do with it to solve <code>n</code>?"
+                        </p>
+                        <div class="bg-white p-3 rounded border border-blue-100 text-sm font-mono text-slate-600">
+                            return n * (Answer_From_Smaller_Step)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-10 mb-12">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold">The 3 Laws of Recursion</h3>
+                    
+                    <div class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">The Base Case</h4>
+                            <p class="text-sm text-slate-600">The condition that stops the recursion. "When is the problem so simple I know the answer immediately?"</p>
+                            <code class="text-xs bg-slate-100 p-1 rounded mt-1 block w-fit">if n == 0: return</code>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">Change of State</h4>
+                            <p class="text-sm text-slate-600">The data passed to the next call must be smaller. You must move *towards* the Base Case.</p>
+                            <code class="text-xs bg-slate-100 p-1 rounded mt-1 block w-fit">factorial(n - 1)</code>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">Self-Reference</h4>
+                            <p class="text-sm text-slate-600">The function must call itself to solve the smaller sub-problem.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200 flex flex-col">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-slate-700">Visualizing the Call Stack</h3>
+                        <button onclick="drawFractalTree()" class="text-xs bg-green-600 text-white px-3 py-1.5 rounded hover:bg-green-700 shadow-sm">Start Animation</button>
+                    </div>
+                    <canvas id="treeCanvas" width="450" height="300" class="w-full border border-slate-100 rounded bg-slate-50 mb-2 flex-grow"></canvas>
+                    <p class="text-xs text-slate-400 italic text-center">Notice how the function "pauses" to go deeper, then returns to finish drawing.</p>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold mb-4">Try it yourself: Python Turtle</h3>
+                <p class="text-slate-600 mb-4">This code uses the <code>turtle</code> library to draw the tree above. Copy this into IDLE or VS Code.</p>
+                
+                <div class="bg-slate-900 rounded-xl overflow-hidden shadow-xl relative group">
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('turtle-code').innerText)" class="absolute top-4 right-4 bg-slate-700 hover:bg-slate-600 text-white text-xs px-2 py-1 rounded opacity-50 group-hover:opacity-100 transition-opacity">Copy</button>
+                    <div class="p-6 overflow-x-auto">
+<pre id="turtle-code"><code class="language-python">import turtle
+
+def draw_tree(t, branch_len):
+    # 1. Base Case
+    if branch_len < 5:
+        return
+
+    # Draw trunk
+    t.forward(branch_len)
+    
+    # 2. Recurse Right
+    t.right(20)
+    draw_tree(t, branch_len - 15)
+    
+    # 3. Recurse Left (Backtrack 20, then Left 20 = Left 40 total shift)
+    t.left(40)
+    draw_tree(t, branch_len - 15)
+    
+    # 4. RESTORE STATE (Backtrack)
+    # We must return the turtle to the start of this branch
+    # so the previous function call can continue correctly.
+    t.right(20)
+    t.backward(branch_len)
+
+# Setup the screen
+t = turtle.Turtle()
+screen = turtle.Screen()
+t.left(90)      # Point up
+t.speed(1)      # 1 = Slowest, 10 = Fast
+t.color("green")
+
+# Start Recursion
+draw_tree(t, 75)
+turtle.done()</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-200 pt-10">
+                <h3 class="text-2xl font-bold mb-6">Practice Problems</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    
+                    <div class="exercise-card bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="p-6">
+                            <h4 class="font-bold text-lg mb-2 text-slate-800">1. Recursive Factorial</h4>
+                            <p class="text-sm text-slate-600 mb-4">Calculate <code>n!</code>. Remember: <code>5! = 5 * 4!</code>.</p>
+                            
+                            <details class="mb-4 group">
+                                <summary class="cursor-pointer text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 select-none">
+                                    <span class="transition-transform group-open:rotate-90">▶</span> How to think about this
+                                </summary>
+                                <div class="mt-2 p-3 bg-blue-50 rounded text-sm text-slate-700 space-y-2">
+                                    <p><strong>1. The Lazy Manager:</strong> I want 5!. I will keep the 5, and tell my clone to calculate 4!.</p>
+                                    <p><strong>2. Base Case:</strong> If I ask for 0!, I know the answer is 1 immediately.</p>
+                                    <p><strong>3. Leap of Faith:</strong> Trust that <code>factorial(n-1)</code> works. Multiply <code>n</code> by that result.</p>
+                                </div>
+                            </details>
+
+                            <button onclick="toggleEx('ex1')" class="text-indigo-600 text-sm font-bold hover:underline">Reveal Code Solution</button>
+                            <div id="ex1" class="hidden mt-4 bg-slate-900 p-4 rounded-lg overflow-x-auto">
+<pre><code class="language-python">def factorial(n):
+    # Base Case: simplest possible input
+    if n == 0: 
+        return 1
+    # Recursive Step: n * (result of smaller problem)
+    return n * factorial(n - 1)</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="p-6">
+                            <h4 class="font-bold text-lg mb-2 text-slate-800">2. Sum a List</h4>
+                            <p class="text-sm text-slate-600 mb-4">Sum list <code>[1, 2, 3]</code> using recursion (no loops).</p>
+                            
+                            <details class="mb-4 group">
+                                <summary class="cursor-pointer text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 select-none">
+                                    <span class="transition-transform group-open:rotate-90">▶</span> How to think about this
+                                </summary>
+                                <div class="mt-2 p-3 bg-blue-50 rounded text-sm text-slate-700 space-y-2">
+                                    <p><strong>1. The Lazy Manager:</strong> I have a list. I'll take the first number (head) for myself. I'll pass the rest (tail) to my clone.</p>
+                                    <p><strong>2. Base Case:</strong> If the list is empty, the sum is 0.</p>
+                                    <p><strong>3. Leap of Faith:</strong> <code>arr[0] + sum_list(arr[1:])</code></p>
+                                </div>
+                            </details>
+
+                            <button onclick="toggleEx('ex2')" class="text-indigo-600 text-sm font-bold hover:underline">Reveal Code Solution</button>
+                            <div id="ex2" class="hidden mt-4 bg-slate-900 p-4 rounded-lg overflow-x-auto">
+<pre><code class="language-python">def sum_list(arr):
+    # Base Case: Empty list
+    if not arr: 
+        return 0
+    # Recursive Step: Head + Sum(Tail)
+    return arr[0] + sum_list(arr[1:])</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    
+    <script>
+        // --- NAVIGATION ---
+        function showSection(id) {
+            // Hide all
+            document.querySelectorAll('.content-section').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('fade-enter-active');
+            });
+            // Show active
+            const active = document.getElementById(id);
+            active.classList.remove('hidden');
+            setTimeout(() => active.classList.add('fade-enter-active'), 10);
+
+            // Update Nav UI
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'border-indigo-400');
+                btn.classList.add('border-transparent');
+                // Reset text colors
+                const title = btn.querySelector('span:first-child');
+                title.classList.remove('text-indigo-400');
+            });
+            
+            // Highlight active nav
+            event.currentTarget.classList.add('bg-slate-800', 'border-indigo-400');
+            event.currentTarget.classList.remove('border-transparent');
+            event.currentTarget.querySelector('span:first-child').classList.add('text-indigo-400');
+
+            if(id === 'recursion') drawFractalTree(); 
+        }
+
+        // --- SELECTION SORT VISUALIZER ---
+        const sortContainer = document.getElementById('sort-container');
+        const sortMsg = document.getElementById('sort-msg');
+        let sortArray = [];
+        
+        function resetSort() {
+            sortArray = Array.from({length: 15}, () => Math.floor(Math.random() * 80) + 10);
+            renderSort();
+            sortMsg.innerText = "Ready";
+        }
+
+        function renderSort(activeIndex = -1, compareIndex = -1, minIndex = -1) {
+            sortContainer.innerHTML = '';
+            sortArray.forEach((val, idx) => {
+                const bar = document.createElement('div');
+                // Height scaled
+                bar.style.height = `${val * 1.5}px`;
+                bar.style.width = '24px';
+                bar.className = 'rounded-t transition-all duration-200 shadow-sm';
+                
+                if (idx === minIndex) {
+                    bar.className += ' bg-red-500'; // Found Min
+                } else if (idx === compareIndex) {
+                    bar.className += ' bg-yellow-400'; // Scanning
+                } else if (idx === activeIndex) {
+                    bar.className += ' bg-indigo-600'; // Current Swap Target
+                } else if (idx < activeIndex) {
+                    bar.className += ' bg-green-500'; // Sorted
+                } else {
+                    bar.className += ' bg-slate-300'; // Unsorted
+                }
+                
+                // Value text inside bar
+                if (val > 15) {
+                   bar.innerHTML = `<span class="block text-center text-[10px] text-white/80 pt-1">${val}</span>`;
+                }
+                
+                sortContainer.appendChild(bar);
+            });
+        }
+
+        async function runSelectionSort() {
+            let n = sortArray.length;
+            for (let i = 0; i < n; i++) {
+                let minIdx = i;
+                sortMsg.innerText = `Step ${i}: Assuming ${sortArray[i]} is min...`;
+                
+                for (let j = i + 1; j < n; j++) {
+                    renderSort(i, j, minIdx);
+                    await new Promise(r => setTimeout(r, 100)); // Scan speed
+                    
+                    if (sortArray[j] < sortArray[minIdx]) {
+                        minIdx = j;
+                        sortMsg.innerText = `Found new min: ${sortArray[j]}`;
+                    }
+                }
+                
+                // SWAP VISUALIZATION
+                sortMsg.innerText = `Swapping ${sortArray[i]} with ${sortArray[minIdx]}`;
+                
+                // Standard swap using Temp logic in JS
+                let temp = sortArray[i];
+                sortArray[i] = sortArray[minIdx];
+                sortArray[minIdx] = temp;
+                
+                renderSort(i, -1, -1);
+                await new Promise(r => setTimeout(r, 300)); // Pause after swap
+            }
+            renderSort(n, -1, -1);
+            sortMsg.innerText = "Sorted!";
+        }
+
+        // --- BINARY SEARCH VISUALIZER ---
+        const binaryContainer = document.getElementById('binary-container');
+        const binaryStatus = document.getElementById('binary-status');
+        let binaryData = [5, 12, 15, 23, 27, 30, 35, 42, 50, 61];
+        let target = 23;
+        let low = 0, high = binaryData.length - 1, mid = -1;
+        let isSearchDone = false;
+
+        function resetBinarySearch() {
+            low = 0; high = binaryData.length - 1; isSearchDone = false;
+            renderBinary();
+            binaryStatus.innerText = "Searching for 23...";
+            binaryStatus.className = "text-indigo-600 font-bold";
+        }
+
+        function renderBinary() {
+            binaryContainer.innerHTML = '';
+            binaryData.forEach((val, idx) => {
+                const box = document.createElement('div');
+                box.className = 'w-10 h-10 flex-shrink-0 flex items-center justify-center border rounded-lg font-bold transition-all duration-300 text-sm shadow-sm';
+                
+                // Range logic
+                if (idx >= low && idx <= high && !isSearchDone) {
+                    box.classList.add('bg-white', 'border-indigo-300', 'text-slate-800');
+                } else if (!isSearchDone) {
+                     box.classList.add('bg-slate-100', 'border-slate-200', 'text-slate-300', 'scale-90');
+                }
+
+                // Midpoint highlight
+                if (idx === mid && !isSearchDone) {
+                    box.classList.remove('border-indigo-300');
+                    box.classList.add('ring-4', 'ring-yellow-400', 'z-10', 'bg-yellow-50');
+                }
+                
+                // Found state
+                if (isSearchDone && idx === mid) {
+                    box.classList.add('bg-green-500', 'text-white', 'border-green-600', 'scale-110');
+                }
+
+                box.innerText = val;
+                binaryContainer.appendChild(box);
+            });
+        }
+
+        function stepBinarySearch() {
+            if (isSearchDone) return;
+            if (low > high) {
+                binaryStatus.innerText = "Target not found!";
+                binaryStatus.className = "text-red-600 font-bold";
+                isSearchDone = true;
+                renderBinary();
+                return;
+            }
+
+            // Calculate Mid
+            mid = Math.floor((low + high) / 2);
+            renderBinary();
+            binaryStatus.innerText = `Checking Index ${mid} (Value: ${binaryData[mid]})`;
+
+            // Delay to show the decision
+            setTimeout(() => {
+                if (binaryData[mid] === target) {
+                    binaryStatus.innerText = `Found 23 at index ${mid}!`;
+                    binaryStatus.className = "text-green-600 font-bold";
+                    isSearchDone = true;
+                    renderBinary();
+                } else if (binaryData[mid] < target) {
+                    low = mid + 1;
+                    binaryStatus.innerText = `${binaryData[mid]} is too low. Ignoring left half.`;
+                    renderBinary();
+                } else {
+                    high = mid - 1;
+                    binaryStatus.innerText = `${binaryData[mid]} is too high. Ignoring right half.`;
+                    renderBinary();
+                }
+            }, 800);
+        }
+
+        // --- RECURSION TREE (Slower, Organic Animation) ---
+        let animationId;
+        function drawFractalTree() {
+            const canvas = document.getElementById('treeCanvas');
+            const ctx = canvas.getContext('2d');
+            // Clear previous
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Cancel any running animation if user clicks fast
+            if(animationId) clearTimeout(animationId);
+            
+            function drawBranch(x, y, length, angle, depth) {
+                if (length < 5) return;
+
+                const endX = x + length * Math.cos(angle * Math.PI / 180);
+                const endY = y - length * Math.sin(angle * Math.PI / 180);
+
+                // Draw the line
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = length < 15 ? '#22c55e' : '#475569'; 
+                ctx.lineWidth = length < 15 ? 1.5 : 3;
+                ctx.stroke();
+                
+                // Organic delay: Deeper branches take longer to appear
+                // This simulates the "Thinking" time of a computer stack
+                const delay = 500; 
+
+                setTimeout(() => {
+                    // Recurse Right
+                    drawBranch(endX, endY, length - 10, angle - 20, depth + 1);
+                    
+                    // Recurse Left (with slight offset delay for visual appeal)
+                    setTimeout(() => {
+                        drawBranch(endX, endY, length - 10, angle + 20, depth + 1);
+                    }, delay / 2);
+                    
+                }, delay);
+            }
+
+            // Start trunk
+            drawBranch(225, 290, 60, 90, 0);
+        }
+
+        // --- UTILS ---
+        function toggleEx(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+
+        // Init
+        window.onload = function() {
+            showSection('complexity');
+            resetSort();
+            resetBinarySearch();
+        };
+    </script>
+</body>
+</html>

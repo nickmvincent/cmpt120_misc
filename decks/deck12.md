@@ -4,6 +4,7 @@ title: Deck 12-13
 paginate: true
 ---
 
+## Searching and Sorting!
 
 ---
 
@@ -12,13 +13,22 @@ Process note: I originally posted a giant deck 10-13 so you could see all the fi
 
 This is deck 12-13, all the rest of our content!
 
-## Binary Search
+---
 
-[Interactive Binary Search Demo](http://interactivepython.org/courselib/static/pythonds/SortSearch/TheBinarySearch.html)
+Find helpful visualizations here:
+
+
+https://visualgo.net/en/sorting
+
+See also: 
+
+Source: [GitHub - vbohush/SortingAlgorithmAnimations](https://github.com/vbohush/SortingAlgorithmAnimations)
+YouTube: [Sorting Algorithm Visualization](http://www.youtube.com/watch?v=ZZuD6iUe3Pc)
+
 
 ---
 
-## A Real-life Example
+## A Real-life Example of Sorting
 
 Let’s say you want to sort Pokémon cards.  
 You could sort by HP — how might you do it?
@@ -37,6 +47,8 @@ b ← temp
 
 ````
 
+(imagine trying to sort a list of physical objects using a single set of tongs)
+
 ---
 
 ## Selection Sort
@@ -46,8 +58,6 @@ b ← temp
 - For every element in the list:
   - Find the smallest element in the rest of the list
   - Swap the current element with that smallest element
-
-[Selection Sort Reference](http://interactivepython.org/courselib/static/pythonds/SortSearch/TheSelectionSort.html)
 
 ---
 
@@ -63,13 +73,6 @@ end = time.time()
 print(end - start)
 ```
 
----
-
-## Visualization of Sorting Algorithms
-
-Source: [GitHub - vbohush/SortingAlgorithmAnimations](https://github.com/vbohush/SortingAlgorithmAnimations)
-YouTube: [Sorting Algorithm Visualization](http://www.youtube.com/watch?v=ZZuD6iUe3Pc)
-
 
 ---
 
@@ -77,7 +80,6 @@ YouTube: [Sorting Algorithm Visualization](http://www.youtube.com/watch?v=ZZuD6i
 
 1. **Correctness** — It works.
 2. **Desirable qualities:**
-
    * Readable and easy to debug
    * Clear and structured
    * Robust and maintainable
@@ -174,6 +176,29 @@ Example: Linear Search
 * Best: Found at first element
 * Worst: Found at last element or not found
 
+
+---
+
+Linear search reference:
+
+```python
+def linear_search(arr, target):
+    """
+    Performs a linear search to find the target value in the given list.
+
+    Args:
+        arr: The list to search within.
+        target: The value to search for.
+
+    Returns:
+        The index of the target if found, otherwise -1.
+    """
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i  # Return the index if the target is found
+    return -1  # Return -1 if the target is not found in the list
+```
+
 ---
 
 ## Linear Search Complexity
@@ -184,6 +209,202 @@ Example: Linear Search
 | Worst | O(n)       |
 
 ---
+
+- **Searching**: Imagine looking for a word in a dictionary. If you check one word at a time from the start, it would take ages for a long dictionary. Binary Search makes this faster.
+- **Key Idea**: Divide the search space in half each time.
+
+--- 
+
+## Linear Search vs. Binary Search
+- **Linear Search**: O(n)
+  - Check each element one-by-one.
+  - Useful when data is unsorted.
+- **Binary Search**: O(log n)
+  - Faster, but requires sorted data.
+  - Each time, cut the search space in half.
+
+---
+
+> (this will come back) Imagine finding a word in a dictionary. How many words do you skip if you flip halfway each time?
+
+---
+
+## Binary Search Intuition
+- **Sorted Array Example**: [1, 3, 5, 7, 9, 11, 13]
+  - Target: Find 9.
+  - **Step 1**: Start with middle element (7).
+  - **Step 2**: Since 9 > 7, ignore left half.
+  - **Step 3**: Now search [9, 11, 13]. Middle is 11.
+  - **Step 4**: Since 9 < 11, ignore right half. Find 9.
+
+---
+
+## Visualization
+- **Divide-and-Conquer**:
+  - Use visuals to demonstrate the division of the array.
+  - Show the array shrinking in size each time.
+- **Pseudocode**:
+  ```
+  low = 0
+  high = len(array) - 1
+  while low <= high:
+      mid = (low + high) // 2
+      if array[mid] == target:
+          return mid
+      elif array[mid] < target:
+          low = mid + 1
+      else:
+          high = mid - 1
+  return -1
+  ```
+
+---
+
+## Why Does It Work?
+- **Core Concept**: Every decision eliminates half of the possible choices.
+- **Comparison to Real Life**: Imagine finding a page in a book without an index. Flip to the middle until you narrow it down.
+
+---
+
+## Practice Problem
+- **Problem**: Find the number 23 in the sorted list [5, 12, 15, 23, 27, 30, 35].
+- **Thinking out loud**: Can try to write out / verbalize each step.
+  - “Is 23 greater or less than the middle element?”
+  - Keep cutting until found.
+
+---
+
+## Common Mistakes
+- **Off-by-One Errors**: Carefully manage `low` and `high` boundaries.
+- **Infinite Loops**: Ensure condition `low <= high`.
+
+> **Tip**: Debugging exercises can help solidify this. Run a failing example and walk through the fix.
+
+---
+
+Example mistake 1: Incorrect Mid Calculation
+
+```python
+array = [1, 3, 5, 7, 9, 11, 13]
+target = 9
+
+low = 0
+high = len(array) - 1
+while low <= high:
+    mid = (low + high) / 2  # Mistake: Using `/` instead of `//` for integer division
+    if array[mid] == target:
+        print(f"Found target {target} at index {mid}")
+        break
+    elif array[mid] < target:
+        low = mid + 1
+    else:
+        high = mid - 1
+else:
+    print("Target not found")
+```
+
+---
+
+Mistake 2: Off-by-One Error
+
+```python
+# Mistake 2: Off-by-One Error
+array = [1, 3, 5, 7, 9, 11, 13]
+target = 9
+
+low = 0
+high = len(array)  # Mistake: Should be `len(array) - 1`
+while low <= high:
+    mid = (low + high) // 2
+    if array[mid] == target:
+        print(f"Found target {target} at index {mid}")
+        break
+    elif array[mid] < target:
+        low = mid + 1
+    else:
+        high = mid - 1
+else:
+    print("Target not found")
+```
+
+---
+
+Example Mistake 3: Infinite Loop Condition
+
+```python
+array = [1, 3, 5, 7, 9, 11, 13]
+target = 9
+
+low = 0
+high = len(array) - 1
+while low < high:  # Mistake: Should be `low <= high`
+    mid = (low + high) // 2
+    if array[mid] == target:
+        print(f"Found target {target} at index {mid}")
+        break
+    elif array[mid] < target:
+        low = mid + 1
+    else:
+        high = mid - 1
+else:
+    print("Target not found")
+```
+
+---
+
+# Fully Worked Example of Binary Search
+
+```python
+def binary_search(array, target):
+    low = 0
+    high = len(array) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+        # Debug statement to show the current state of low, high, and mid
+        print(f"Low: {low}, High: {high}, Mid: {mid}, Mid Value: {array[mid]}")
+
+        if array[mid] == target:
+            return mid
+        elif array[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return -1  # Target not found
+
+# Example usage
+array = [1, 3, 5, 7, 9, 11, 13]
+target = 9
+result = binary_search(array, target)
+if result != -1:
+    print(f"Target {target} found at index {result}")
+else:
+    print("Target not found")
+``` 
+
+---
+
+## Binary Search Applications
+- **Applications**:
+  - Finding an element in a sorted array.
+  - Searching in a phonebook.
+  - Problems like "Guess the Number" (using minimum attempts).
+
+---
+
+## Conclusion & Recap
+- **Summary**: Binary Search cuts the search space in half each time, leading to a time complexity of O(log n).
+- **Key Question**: Why does Binary Search need a sorted array?
+
+> **Engagement**: Think of any real-life activities where a binary search-like strategy is used?
+
+---
+
+https://www.cs.usfca.edu/~galles/visualization/Search.html
+
+---
+
 
 ## Logarithmic Complexity
 
@@ -204,6 +425,8 @@ Height of the tree = `log₂ n` comparisons (worst case).
 ---
 
 ## Selection Sort Complexity
+
+(see code in readings: [here](https://runestone.academy/ns/books/published/pythonds/SortSearch/TheSelectionSort.html)
 
 Selection sort compares:
 
@@ -324,6 +547,8 @@ First, take a look at `draw_tree.py` in this deck. We're going to talk through h
 3. Hits the base case immediately
 
 ---
+
+draw_tree.py
 
 ```python
 import turtle
@@ -672,218 +897,6 @@ print(count_vowels("xyz"))              # Output: 0
 ```
 
 </details>
-
-
-# Binary Search: A Fast Way to Find Things
-
----
-
-## Agenda / About this deck
-
-First, finish our recursion activity.
-
-Then, run through this deck very quickly. This is just focused on the code implementation of binary search (lots of overlap with Runestone).
-
-Then, depending on time, we'll talk more conceptually about search, but also just work on project.
-
-
----
-
-## Introduction to Searching
-- **Searching**: Imagine looking for a word in a dictionary. If you check one word at a time from the start, it would take ages for a long dictionary. Binary Search makes this faster.
-- **Key Idea**: Divide the search space in half each time.
-
---- 
-
-## Linear Search vs. Binary Search
-- **Linear Search**: O(n)
-  - Check each element one-by-one.
-  - Useful when data is unsorted.
-- **Binary Search**: O(log n)
-  - Faster, but requires sorted data.
-  - Each time, cut the search space in half.
-
----
-
-> **Interactive Demo**: Imagine finding a word in a dictionary. How many words do you skip if you flip halfway each time?
-
----
-
-## Binary Search Intuition
-- **Sorted Array Example**: [1, 3, 5, 7, 9, 11, 13]
-  - Target: Find 9.
-  - **Step 1**: Start with middle element (7).
-  - **Step 2**: Since 9 > 7, ignore left half.
-  - **Step 3**: Now search [9, 11, 13]. Middle is 11.
-  - **Step 4**: Since 9 < 11, ignore right half. Find 9.
-
----
-
-## Visualization
-- **Divide-and-Conquer**:
-  - Use visuals to demonstrate the division of the array.
-  - Show the array shrinking in size each time.
-- **Pseudocode**:
-  ```
-  low = 0
-  high = len(array) - 1
-  while low <= high:
-      mid = (low + high) // 2
-      if array[mid] == target:
-          return mid
-      elif array[mid] < target:
-          low = mid + 1
-      else:
-          high = mid - 1
-  return -1
-  ```
-
----
-
-## Why Does It Work?
-- **Core Concept**: Every decision eliminates half of the possible choices.
-- **Comparison to Real Life**: Imagine finding a page in a book without an index. Flip to the middle until you narrow it down.
-
----
-
-## Practice Problem
-- **Problem**: Find the number 23 in the sorted list [5, 12, 15, 23, 27, 30, 35].
-- **Thinking out loud**: Can try to write out / verbalize each step.
-  - “Is 23 greater or less than the middle element?”
-  - Keep cutting until found.
-
----
-
-## Common Mistakes
-- **Off-by-One Errors**: Carefully manage `low` and `high` boundaries.
-- **Infinite Loops**: Ensure condition `low <= high`.
-
-> **Tip**: Debugging exercises can help solidify this. Run a failing example and walk through the fix.
-
----
-
-Example mistake 1: Incorrect Mid Calculation
-
-```python
-array = [1, 3, 5, 7, 9, 11, 13]
-target = 9
-
-low = 0
-high = len(array) - 1
-while low <= high:
-    mid = (low + high) / 2  # Mistake: Using `/` instead of `//` for integer division
-    if array[mid] == target:
-        print(f"Found target {target} at index {mid}")
-        break
-    elif array[mid] < target:
-        low = mid + 1
-    else:
-        high = mid - 1
-else:
-    print("Target not found")
-```
-
----
-
-Mistake 2: Off-by-One Error
-
-```python
-# Mistake 2: Off-by-One Error
-array = [1, 3, 5, 7, 9, 11, 13]
-target = 9
-
-low = 0
-high = len(array)  # Mistake: Should be `len(array) - 1`
-while low <= high:
-    mid = (low + high) // 2
-    if array[mid] == target:
-        print(f"Found target {target} at index {mid}")
-        break
-    elif array[mid] < target:
-        low = mid + 1
-    else:
-        high = mid - 1
-else:
-    print("Target not found")
-```
-
----
-
-Example Mistake 3: Infinite Loop Condition
-
-```python
-array = [1, 3, 5, 7, 9, 11, 13]
-target = 9
-
-low = 0
-high = len(array) - 1
-while low < high:  # Mistake: Should be `low <= high`
-    mid = (low + high) // 2
-    if array[mid] == target:
-        print(f"Found target {target} at index {mid}")
-        break
-    elif array[mid] < target:
-        low = mid + 1
-    else:
-        high = mid - 1
-else:
-    print("Target not found")
-```
-
----
-
-# Fully Worked Example of Binary Search
-
-```python
-def binary_search(array, target):
-    low = 0
-    high = len(array) - 1
-
-    while low <= high:
-        mid = (low + high) // 2
-        # Debug statement to show the current state of low, high, and mid
-        print(f"Low: {low}, High: {high}, Mid: {mid}, Mid Value: {array[mid]}")
-
-        if array[mid] == target:
-            return mid
-        elif array[mid] < target:
-            low = mid + 1
-        else:
-            high = mid - 1
-
-    return -1  # Target not found
-
-# Example usage
-array = [1, 3, 5, 7, 9, 11, 13]
-target = 9
-result = binary_search(array, target)
-if result != -1:
-    print(f"Target {target} found at index {result}")
-else:
-    print("Target not found")
-``` 
-
----
-
-## Binary Search Applications
-- **Applications**:
-  - Finding an element in a sorted array.
-  - Searching in a phonebook.
-  - Problems like "Guess the Number" (using minimum attempts).
-
----
-
-## Conclusion & Recap
-- **Summary**: Binary Search cuts the search space in half each time, leading to a time complexity of O(log n).
-- **Key Question**: Why does Binary Search need a sorted array?
-
-> **Engagement**: Think of any real-life activities where a binary search-like strategy is used?
-
----
-
-https://www.cs.usfca.edu/~galles/visualization/Search.html
-
----
 
 
 
